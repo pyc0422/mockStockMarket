@@ -1,12 +1,16 @@
 import React from 'react';
-import sha256 from 'crypto-js/sha256';
+import sha1 from 'crypto-js/sha1';
+
+
+const initState = {
+  username:'',
+  password:''
+};
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={
-      username:'',
-      password:''
-    };
+    this.state = initState;
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange (e) {
@@ -29,13 +33,16 @@ class Login extends React.Component {
     } else if (this.state.password.length === 0) {
       alert('Please enter password!');
     } else {
-      var hashed = JSON.stringify(sha256(this.state.password).words);
-      const text = {
+      let hashed = JSON.stringify(sha1(this.state.password).words);
+      const tempUser = {
         username: this.state.username,
-        password: hashed
-      }
-      console.log(text);
-      console.log('just login ready to sent to server');
+        password: this.state.password
+      };
+      console.log(tempUser, 'just login ready to sent to server');
+      this.props.login(tempUser)
+       .then(() => {
+        this.setState(initState);
+       })
     }
   }
 

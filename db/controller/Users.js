@@ -10,7 +10,7 @@ module.exports = {
     })
   },
 
-  find: (user, cb) => {
+  findUser: (user, cb) => {
     let query = `SELECT * from users where name= ?`
     db.query(query, [user.username], function(err, results) {
       if (err) throw err;

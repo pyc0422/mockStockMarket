@@ -44,10 +44,10 @@ class Signup extends React.Component {
     } else if (this.state.password1 !== this.state.password2) {
       alert('Password did not match');
     } else {
-      var hashed = JSON.stringify(sha1(this.state.password).words);
+      let hashed = JSON.stringify(sha1(this.state.password).words);
       const newUser = {
         username: this.state.username,
-        password: hashed,
+        password: this.state.password1,
         cash: 100
       }
       console.log(newUser, ' start signup!');

@@ -28,7 +28,7 @@ app.post('/search', (req, res) => {
 app.post('/signup', (req, res) => {
   let newUser = req.body;
   console.log('newUser: ', newUser);
-  Users.find(newUser, (data) => {
+  Users.findUser(newUser, (data) => {
     console.log('user find: ', data);
     if (data.length > 0) {
        return res.status(422).send('user already exists!');
@@ -43,8 +43,24 @@ app.post('/signup', (req, res) => {
   })
 });
 
-app.get('/login', (req, res) => {
-  res.send()
+app.post('/login', (req, res) => {
+  let userData = req.body;
+  console.log('login user: ', userData);
+  Users.findUser(userData, (data) => {
+    console.log('password data: ', data);
+    if (data.length === 0) {
+      return res.status(404).send("not found!");
+    }
+    // if (data.length > 0) {
+    //
+    // } else {
+    if (JSON.stringify(data[0].password) === JSON.stringify(userData.password)) {
+      res.status(200).send('just login');
+    } else {
+      return res.status(401).send('wrong password');
+
+    }
+  })
 })
 const port = 3000;
 app.listen(port, () => {

@@ -16,7 +16,8 @@ class App extends React.Component {
       login: false
     };
     this.btnClick = this.btnClick.bind(this);
-    this.renderPage = null;
+    this.beforeLoginRenderPage = null;
+    this.afterLoginRenderpage = null;
   }
 
   search(symbol, cb) {
@@ -36,63 +37,109 @@ class App extends React.Component {
       })
   }
 
+  handleLogin(user) {
+    console.log('inside handellogin: ', user);
+    return fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then((res) => {
+        if (res.status === 404) {
+          alert('Can not find such user!');
+        } else if (res.status === 401) {
+          alert('Wrong password!');
+        } else {
+          this.setState({
+            login: true
+          });
+        }
+      });
+  }
+
   btnClick(e) {
     console.log(e.target.value + ' just Clicked!');
     this.setState({
       clickBtn: e.target.value
     })
+    if (e.target.value === 'logout') {
+      this.setState({
+        login: false
+      })
+    }
+
   }
 
   render() {
-    switch (this.state.clickBtn) {
-      case 'dashboard':
-        this.renderPage = <Dashboard />
-        break;
-      case 'trade':
-        this.renderPage = <Trade />
-        break;
-      case 'history':
-        this.renderPage =<History />
-        break;
-      case 'singup':
-        this.renderPage = <Signup />
-        break;
-      case 'login':
-        this.renderPage = <Login />
-        break;
-      default:
-        this.renderPage = (
-        <div>
-          <h4>Welcome to Mock Stock Market!</h4>
-        <Search onSearch={this.search.bind(this)} />
-        </div>
-        )
+    if (!this.state.login) {
+      switch (this.state.clickBtn) {
+        case 'singup':
+          this.beforeLoginRenderPage = <Signup />
+          break;
+        case 'login':
+          this.beforeLoginRenderPage = <Login login={this.handleLogin.bind(this)}/>
+          break;
+        default:
+          this.beforeLoginRenderPage = (
+          <div>
+            <h4>Welcome to Mock Stock Market!</h4>
+          <Search onSearch={this.search.bind(this)} />
+          </div>
+          )
+      }
+    } else {
+      switch (this.state.clickBtn) {
+        case 'dashboard':
+          this.afterLoginRenderpage = <Dashboard />
+          break;
+        case 'trade':
+          this.afterLoginRenderpage = <Trade />
+          break;
+        case 'history':
+          this.afterLoginRenderpage =<History />
+          break;
+        case 'logout':
+          this.afterLoginRenderpage = (
+            <div>
+              <h4>Welcome to Mock Stock Market!</h4>
+            <Search onSearch={this.search.bind(this)} />
+            </div>
+            )
+          break;
+        default:
+          this.afterLoginRenderpage = <Dashboard />
+      }
     }
+
     return (
       <div>
         <div onClick={this.btnClick}>
-          { this.state.login ?  <button /> : null }
-          <button className='btn show' value='singup'>Sign Up</button>
-          <button className='btn show' value='login'>Login</button>
+          { this.state.login &&  (
+            <a>
+              <button className='btn' value='dashboard'>Dashboard</button>
+              <button className='btn' value='trade'>Trade</button>
+              <button className='btn' value='history'>History</button>
+            </a>
+            )
+          }
+          { !this.state.login ? (
+            <a>
+              <button className='btn' value='singup'>Sign Up</button>
+              <button className='btn' value='login'>Login</button>
+            </a>)
+           : <button className='btn' vlaue='logout'>LogOut</button>}
         </div>
-        <div>
-          {this.renderPage}
+      <div>
+          { !this.state.login ? this.beforeLoginRenderPage : this.afterLoginRenderpage}
         </div>
       </div>
     )
   }
 }
 
-let button = () => {
-  return (
-    <div>
-      <button className='btn no-show' value='dashboard'>Dashboard</button>
-      <button className='btn no-show' value='trade'>Trade</button>
-      <button className='btn no-show' value='history'>History</button>
-    </div>
 
-  )
-}
 const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(
   <React.StrictMode>
