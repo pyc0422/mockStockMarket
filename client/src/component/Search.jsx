@@ -1,5 +1,5 @@
 import React from 'react';
-
+import StockListEntry from "./StockListEntry.jsx"
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +9,11 @@ class Search extends React.Component {
   }
 
   onClick (e) {
-    this.props.onSearch(this.state.input)
+    this.props.onSearch(this.state.input, () => {
+      this.setState({
+        input: ''
+      })
+    })
   }
 
   onChange (e) {
@@ -23,6 +27,7 @@ class Search extends React.Component {
       <div>
         <input onChange={this.onChange.bind(this)} value={this.state.input}></input>
         <button onClick={this.onClick.bind(this)}>Search</button>
+        <StockListEntry />
       </div>
     )
   }

@@ -4,7 +4,8 @@
   "description": "mvp project",
   "main": "index.js",
   "scripts": {
-    "react-dev": "webpack --mode development --watch"
+    "react-dev": "webpack --mode development --watch",
+    "server-dev": "npx nodemon server/app.js"
   },
   "author": "Yuchen Pan",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "crypto-js": "^4.1.1",
     "express": "^4.18.1",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "node": "^18.8.0",
     "npx": "^10.2.2",
     "react": "^18.2.0",

@@ -6,7 +6,7 @@ import Trade from "./component/Trade.jsx";
 import History from "./component/History.jsx";
 import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
-import axios from 'axios';
+
 class App extends React.Component {
 
   constructor(props) {
@@ -19,29 +19,21 @@ class App extends React.Component {
     this.renderPage = null;
   }
 
-  search(symbol) {
+  search(symbol, cb) {
     symbol = symbol.toUpperCase()
     console.log(`This ${symbol} has been searched!`);
-    // let headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // headers.append('Access-Control-Allow-Credentials', 'true');
-    // fetch('http://localhost:3000/search', {
-    //   method: 'POST',
-    //   body: JSON.stringify({symbol}),
-    //   mode: 'cors',
-    //   headers: {'Content-Type': 'application/json'}
-    // }).then(response => response.json())
-    //   .then(data => {
-    //     console.log('fetch data: ', data);
-    //   })
-    //   .catch((err) => {
-    //     console.log('fetch post err: ', err);
-    //   })
-    axios.post('http://localhost:3000/search', {symbol})
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
+
+    return fetch('http://localhost:3000/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({symbol})
+    })
+      .then((data) => {
+        console.log('searched!', data);
+        cb(data);
+
       })
   }
 
