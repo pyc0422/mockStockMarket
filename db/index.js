@@ -6,7 +6,7 @@ module.exports = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'stocks'
+  database: 'stocksDB'
 })
 // const db = Promise.promisifyAll(connection, {multiArgs: true});
 // db.connectAsync()

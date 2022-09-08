@@ -30,10 +30,9 @@ class App extends React.Component {
       },
       body: JSON.stringify({symbol})
     })
-      .then((data) => {
-        console.log('searched!', data);
-        cb(data);
-
+      .then(res => res.json())
+      .then(json => {
+        cb(json);
       })
   }
 
@@ -69,13 +68,10 @@ class App extends React.Component {
         </div>
         )
     }
-
     return (
       <div>
         <div onClick={this.btnClick}>
-          <button className='btn no-show' value='dashboard'>Dashboard</button>
-          <button className='btn no-show' value='trade'>Trade</button>
-          <button className='btn no-show' value='history'>History</button>
+          { this.state.login ?  <button /> : null }
           <button className='btn show' value='singup'>Sign Up</button>
           <button className='btn show' value='login'>Login</button>
         </div>
@@ -85,6 +81,17 @@ class App extends React.Component {
       </div>
     )
   }
+}
+
+let button = () => {
+  return (
+    <div>
+      <button className='btn no-show' value='dashboard'>Dashboard</button>
+      <button className='btn no-show' value='trade'>Trade</button>
+      <button className='btn no-show' value='history'>History</button>
+    </div>
+
+  )
 }
 const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(

@@ -1,15 +1,22 @@
-import React from 'react';
-import sha256 from 'crypto-js/sha256';
+import React, { useState } from 'react';
+import sha1 from 'crypto-js/sha1';
+const initState = {
+  username:'',
+  password1:'',
+  password2: '',
+  message: '',
+  registed: false,
+};
+
 class Signup extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={
-      username:'',
-      password1:'',
-      password2: ''
-    };
+
+    this.state = initState;
     this.handleChange = this.handleChange.bind(this);
+
   }
+
   handleChange (e) {
     var id = e.target.id;
     var value = e.target.value;
@@ -27,6 +34,7 @@ class Signup extends React.Component {
       })
     }
   }
+
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.username.length == 0) {
@@ -36,39 +44,57 @@ class Signup extends React.Component {
     } else if (this.state.password1 !== this.state.password2) {
       alert('Password did not match');
     } else {
-      var hashed = JSON.stringify(sha256(this.state.password).words);
-      const text = {
+      var hashed = JSON.stringify(sha1(this.state.password).words);
+      const newUser = {
         username: this.state.username,
         password: hashed,
         cash: 100
       }
-      console.log(text);
-      console.log('just signup ready to sent to server');
+      console.log(newUser, ' start signup!');
+      return fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+      })
+       .then((res) => {
+        console.log('response data:' , res)
+        if (res.status === 422) {
+          alert('User already exists!');
+        } else {
+          alert('Registe Success! You can Login now!')
+        }
+        this.setState(initState);
+       })
     }
   }
-
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label>
-          UserName:
-          <input onChange={this.handleChange} value={this.state.username} type="text" id="username" />
-        </label>
-        <br/>
-        <label>
-          Password:
-          <input onChange={this.handleChange} value={this.state.password1}type="password" id='pw1'/>
-        </label>
-        <br/>
-        <label>
-          Password again:
-          <input onChange={this.handleChange} value={this.state.password2} type="password" id='pw2'/>
-        </label>
-        <br/>
-        <input type="submit" value="Register" />
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>
+            UserName:
+            <input onChange={this.handleChange} value={this.state.username} type="text" id="username" />
+          </label>
+          <br/>
+          <label>
+            Password:
+            <input onChange={this.handleChange} value={this.state.password1}type="password" id='pw1'/>
+          </label>
+          <br/>
+          <label>
+            Password again:
+            <input onChange={this.handleChange} value={this.state.password2} type="password" id='pw2'/>
+          </label>
+          <br/>
+          <input type="submit" value="Register" />
+        </form>
+
+      </div>
     )
   }
 }
+
 
 export default Signup;

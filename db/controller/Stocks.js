@@ -1,10 +1,15 @@
 const db = require('../index');
-db.connect();
+
 module.exports = {
-  find: ({key: value}, cb) => {
+  insert: () => {
+    console.log('ih');
+  },
+
+  find: ({key: value}) => {
     let query = `SELECT * from stocks where ${key}=${value}`
-    db.query(query, function(err, results) {
+    return db.query(query, function(err, results) {
       if (err) throw err;
       cb(results);
     })
+  }
 }
