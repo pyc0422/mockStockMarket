@@ -30,16 +30,21 @@ class Trade extends React.Component {
   }
 
   handleSubmit(e) {
-    const text = {
+    const content = {
       symbol: this.state.symbol.toUpperCase(),
-      shares: this.state.shares,
-      action: this.state.action
+      shares: parseInt(this.state.shares),
+      action: this.state.action,
+      user_id: this.props.user.id,
+      cash: this.props.user.cash
     }
-    //use fetch to submit to server
     event.preventDefault();
-    console.log(text);
-    console.log(' is ready to post to server!')
+    console.log(content, ' is ready to post to server!')
     //submit to server
+    this.props.trade(content)
+      .then(() => {
+        console.log('traded!');
+      })
+
   }
 
   render() {

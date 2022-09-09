@@ -39,7 +39,6 @@ class App extends React.Component {
   }
 
   handleLogin(user) {
-    console.log('inside handellogin: ', user);
     return fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
@@ -74,10 +73,21 @@ class App extends React.Component {
         alert(message);
       })
   }
-  // logout() {
-  //   localStorage.clear();
-  //   window.location.href = '/';
-  // }
+
+  trade(content) {
+    console.log('inside trade: ', content);
+    return fetch('http://localhost:3000/trade', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(content)
+    })
+      .then((res) => {
+        console.log('trade finished');
+      });
+  }
+
   btnClick(e) {
     console.log(e.target.value + ' just Clicked!');
     if (e.target.value === 'logout') {
@@ -117,7 +127,7 @@ class App extends React.Component {
           this.afterLoginRenderpage = <Dashboard />
           break;
         case 'trade':
-          this.afterLoginRenderpage = <Trade />
+          this.afterLoginRenderpage = <Trade trade={this.trade.bind(this)} user={this.state.user}/>
           break;
         case 'history':
           this.afterLoginRenderpage =<History />

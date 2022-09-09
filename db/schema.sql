@@ -23,10 +23,12 @@ CREATE TABLE IF NOT EXISTS stocks(
 
 CREATE TABLE IF NOT EXISTS history(
   id MEDIUMINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  stock_id MEDIUMINT,
-  CONSTRAINT FOREIGN KEY (stock_id) REFERENCES stocks(id),
+  user_id MEDIUMINT,
+  CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id),
+  symbol TEXT,
+  name TEXT,
   price FLOAT,
   share INT,
   total FLOAT,
-  createAt TIMESTAMP
+  createAt TIMESTAMP NOT NULL
 );

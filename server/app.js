@@ -4,7 +4,7 @@ const db = require('../db/index');
 console.log('db', typeof db);
 const bp = require('body-parser');
 const findStock = require('./helper');
-const {Users, Stocks} = require('../db/controller');
+const {Users, Stocks, History} = require('../db/controller');
 let app = express();
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
@@ -58,28 +58,33 @@ app.post('/login', (req, res) => {
     }
   })
 })
+
+app.post('/trade', (req, res) => {
+  let tradeData = req.body;
+  console.log('trade data: ', tradeData);
+  return findStock(tradeData.symbol)
+    .then((response) => {
+      console.log('response trade: ', response);
+      if (response.length === 0) {
+        return res.status(404).send('have not own any share of this stock')
+      } else {
+        let data = response[0];
+        tradeData.price = data['price'];
+        tradeData.name = data['name'];
+        tradeData.total = data['price'] * tradeData.shares;
+        tradeData.cash = tradeData.cash - tradeData.total;
+        Stocks.insert(tradeData, () => {
+          console.log('add stocks!');
+          History.insert(tradeData, (results) => {
+            console.log('add history!');
+            return res.status(201).json(results);
+          });
+        })
+      }
+    })
+})
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 })
-
- // console.log(params);
-        // const queryString = `INSERT INTO stocks (symbol, name,price) VALUES (?, ?, ?)`
-        // db.connect();
-        // return Stocks.find({symbol: data['symbol']})
-        //   .then((data) => {
-        //     if (!data) {
-        //       db.query(queryString, params, function(err) {
-        //         if (err) {
-        //           console.log(err);
-        //           return;
-        //         }
-        //         res.status(200).send(JSON.stringify(params));
-        //       })
-        //     } else {
-        //       db.query(`UPDATE stocks SET price=${data['price']} WHERE symbol=${data['symbol']} limit 1`, (err) => {
-        //         if (err) throw err;
-        //         res.status(200).send(JSON.stringify(params));
-        //       })
-        //     }
-        //   })
