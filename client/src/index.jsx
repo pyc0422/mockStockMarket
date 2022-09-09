@@ -13,6 +13,7 @@ class App extends React.Component {
     super (props);
     this.state = {
       clickBtn: '',
+      user: {},
       login: false
     };
     this.btnClick = this.btnClick.bind(this);
@@ -48,15 +49,30 @@ class App extends React.Component {
     })
       .then((res) => {
         if (res.status === 404) {
-          alert('Can not find such user!');
+          let message = 'Can not find such user!'
+          throw message;
         } else if (res.status === 401) {
-          alert('Wrong password!');
+          let message = 'Wrong password!';
+          throw message
         } else {
-          this.setState({
-            login: true
-          });
+          return res.json();
         }
-      });
+      })
+      .then((json) => {
+        console.log('in handlelogin: ',json);
+        const user = {
+          id: json.id,
+          name: json.name,
+          cash: json.cash
+        }
+        this.setState({
+          user: user,
+          login: true
+        })
+      })
+      .catch(message => {
+        alert(message);
+      })
   }
   // logout() {
   //   localStorage.clear();
