@@ -58,19 +58,25 @@ class App extends React.Component {
         }
       });
   }
-
+  // logout() {
+  //   localStorage.clear();
+  //   window.location.href = '/';
+  // }
   btnClick(e) {
     console.log(e.target.value + ' just Clicked!');
-    this.setState({
-      clickBtn: e.target.value
-    })
     if (e.target.value === 'logout') {
       this.setState({
+        clickBtn: '',
         login: false
       })
+    } else {
+      this.setState({
+        clickBtn: e.target.value
+      })
     }
-
   }
+
+
 
   render() {
     if (!this.state.login) {
@@ -100,14 +106,6 @@ class App extends React.Component {
         case 'history':
           this.afterLoginRenderpage =<History />
           break;
-        case 'logout':
-          this.afterLoginRenderpage = (
-            <div>
-              <h4>Welcome to Mock Stock Market!</h4>
-            <Search onSearch={this.search.bind(this)} />
-            </div>
-            )
-          break;
         default:
           this.afterLoginRenderpage = <Dashboard />
       }
@@ -129,7 +127,7 @@ class App extends React.Component {
               <button className='btn' value='singup'>Sign Up</button>
               <button className='btn' value='login'>Login</button>
             </a>)
-           : <button className='btn' vlaue='logout'>LogOut</button>}
+           : <button className='btn' value='logout'>LogOut</button>}
         </div>
       <div>
           { !this.state.login ? this.beforeLoginRenderPage : this.afterLoginRenderpage}
