@@ -7,6 +7,7 @@ import History from "./component/History.jsx";
 import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
 import {searchStock, login, handleTrade, userStocks, allHistory} from '../../helper/utils.js';
+//import './index.css'
 class App extends React.Component {
 
   constructor(props) {
@@ -165,7 +166,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <div onClick={this.btnClick}>
+        <div className='button' onClick={this.btnClick}>
           { this.state.login &&  (
             <a>
               <button className='btn' value='dashboard'>Dashboard</button>
@@ -182,7 +183,7 @@ class App extends React.Component {
             </a>)
            : <button className='btn' value='logout'>LogOut</button>}
         </div>
-      <div>
+      <div className='main'>
           { !this.state.login ? this.beforeLoginRenderPage : this.afterLoginRenderpage}
         </div>
       </div>
