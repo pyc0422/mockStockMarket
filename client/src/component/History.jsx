@@ -2,7 +2,7 @@ import React from 'react';
 import StockListEntry from "./StockListEntry.jsx";
 var History = (props) => {
   return (
-    <div>
+    <div className="history">
       <p>Recent transactions: </p>
       <table>
         <thead>

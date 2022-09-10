@@ -140,7 +140,7 @@ class App extends React.Component {
         default:
           this.beforeLoginRenderPage = (
           <div>
-            <h4>Welcome to Mock Stock Market!</h4>
+            <h2>Welcome to Mock Stock Market!</h2>
           <Search onSearch={this.search.bind(this)} />
           </div>
           )
