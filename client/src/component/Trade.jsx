@@ -46,7 +46,6 @@ class Trade extends React.Component {
     this.props.trade(content)
       .then(() => {
         console.log('trade finished');
-        alert('Trade successfully!');
         this.setState(initState);
       })
 

@@ -11,8 +11,8 @@ module.exports = {
 
   insert: (stockData, cb) => {
     console.log('stockData: ', stockData);
-    let query = `SELECT * from stocks where symbol=?`;
-    db.query(query, [stockData.symbol], function(err, results) {
+    let query = `SELECT * from stocks WHERE symbol=? AND user_id=?`;
+    db.query(query, [stockData.symbol, stockData.user_id], function(err, results) {
       if (err) throw err;
       console.log('controller stocks: ', results);
       if (!results.length) {

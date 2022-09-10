@@ -39,7 +39,7 @@ const Dashboard = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.stocks.map(stock => <StockListEntry stock={stock} key={stock.user_id}/>)}
+          {props.stocks.map(stock => <StockListEntry stock={stock} key={stock.id}/>)}
         </tbody>
         <tfoot>
           <tr>

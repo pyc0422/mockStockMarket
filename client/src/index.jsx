@@ -6,7 +6,7 @@ import Trade from "./component/Trade.jsx";
 import History from "./component/History.jsx";
 import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
-
+import {searchStock, login, handleTrade, userStocks, allHistory} from '../../helper/utils.js';
 class App extends React.Component {
 
   constructor(props) {
@@ -26,41 +26,17 @@ class App extends React.Component {
   search(symbol, cb) {
     symbol = symbol.toUpperCase()
     console.log(`This ${symbol} has been searched!`);
-
-    return fetch('http://localhost:3000/search', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({symbol})
-    })
-      .then(res => res.json())
-      .then(json => {
-        cb(json);
-      })
+    searchStock(symbol, cb);
   }
 
   handleLogin(user) {
-    return fetch('http://localhost:3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-      .then((res) => {
-        if (res.status === 404) {
-          let message = 'Can not find such user!'
-          throw message;
-        } else if (res.status === 401) {
-          let message = 'Wrong password!';
-          throw message
-        } else {
-          return res.json();
-        }
-      })
+    return login(user)
       .then((json) => {
-        console.log('in handlelogin: ',json);
+        if (typeof json === 'string') {
+          let message = json;
+          throw message;
+        }
+        //console.log('in handlelogin: ',typeof json);
         const user = {
           id: json.id,
           name: json.name,
@@ -77,27 +53,12 @@ class App extends React.Component {
   }
 
   trade(content) {
-    console.log('inside trade: ', content);
-    return fetch('http://localhost:3000/trade', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(content)
-    })
-      .then(res => {
-
-        if (res.status === 403) {
-          let message = 'Not enough money!';
-          throw message;
-        } else if (res.status === 400) {
-          let message = 'Not enough shares!';
-          throw message;
-        } else {
-          return res.json();
-        }
-      })
+    return handleTrade(content)
       .then(json => {
+        if (typeof json === 'string') {
+          let message = json;
+          throw message;
+        }
         let updateUser = {
           id: this.state.user.id,
           name: this.state.user.name,
@@ -107,19 +68,12 @@ class App extends React.Component {
           user: updateUser
         });
       })
+      .then(() => alert('Trade successfully!'))
       .catch(message => alert(message))
-
   }
 
   findUserStock(cb) {
-    return fetch('/mystocks', {
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({id: this.state.user.id})
-    })
-      .then(res => res.json())
+    return userStocks(this.state.user.id)
       .then(json => {
         console.log('stocks json: ', json);
         this.setState({
@@ -129,18 +83,10 @@ class App extends React.Component {
       .then(() => {
         cb();
       })
-
   }
 
   findHistory(cb) {
-    return fetch('http://localhost:3000/history', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({id: this.state.user.id})
-    })
-      .then(res => res.json())
+    return allHistory(this.state.user.id)
       .then(json => {
         console.log('history json: ', json);
         this.setState({
@@ -207,7 +153,10 @@ class App extends React.Component {
           this.afterLoginRenderpage = <Trade trade={this.trade.bind(this)} user={this.state.user}/>
           break;
         case 'history':
-          this.afterLoginRenderpage =<History history={this.state.user_history}/>
+          this.afterLoginRenderpage = <History history={this.state.user_history}/>
+          break;
+        case 'search':
+          this.afterLoginRenderpage = <Search onSearch={this.search.bind(this)}/>
           break;
         default:
           this.afterLoginRenderpage = <Dashboard user={this.state.user} stocks={this.state.user_stocks}/>
@@ -222,6 +171,7 @@ class App extends React.Component {
               <button className='btn' value='dashboard'>Dashboard</button>
               <button className='btn' value='trade'>Trade</button>
               <button className='btn' value='history'>History</button>
+              <button className='btn' value='search'>Search</button>
             </a>
             )
           }

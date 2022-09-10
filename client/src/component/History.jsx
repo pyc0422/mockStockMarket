@@ -16,15 +16,9 @@ var History = (props) => {
             <th>Date</th>
           </tr>
         </thead>
-      <tbody>
-        {props.history.map(record => <StockListEntry stock={record} key={record.id}/>)}
-      </tbody>
-      <tfoot>
-        <tr>
-          <th>TOTAL: </th><td>$123.00</td>
-        </tr>
-
-      </tfoot>
+        <tbody>
+          {props.history.map(record => <StockListEntry stock={record} key={record.id}/>)}
+        </tbody>
       </table>
     </div>
   )

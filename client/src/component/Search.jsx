@@ -28,7 +28,10 @@ class Search extends React.Component {
 
   render() {
     return (
+
       <div>
+        <a>Enter symbol to search: </a><br/>
+        <p><a href="https://stockanalysis.com/stocks/">Click here</a> if you don't know the symbol</p>
         <input onChange={this.onChange.bind(this)} value={this.state.input}></input>
         <button onClick={this.onClick.bind(this)}>Search</button>
         { this.state.param.length === 0 ? null : <StockShow stock={this.state.param}/> }

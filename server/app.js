@@ -3,20 +3,23 @@ const path = require('path');
 const db = require('../db/index');
 console.log('db', typeof db);
 const bp = require('body-parser');
-const findStock = require('./helper');
+const findStock = require('../helper/helper');
 const {Users, Stocks, History} = require('../db/controller');
 let app = express();
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 
+app.get('/', (req, res) => {
+  res.status(200).send('refreshed');
+})
 app.post('/search', (req, res) => {
   console.log('search post', req.body);
   const { symbol } = req.body;
   return findStock(symbol)
     .then((response) => {
       if (response.length === 0) {
-        res.send("<script>alert('please enter a valid symbol!'); window.location.href = '/'; </script>")
+        return res.status(404).send('wrong symbol');
       } else {
         let data = response[0];
         const stockData =[data['symbol'],data['name'],data['price']];
@@ -72,10 +75,11 @@ app.post('/trade', (req, res) => {
         tradeData.price = data['price'];
         tradeData.name = data['name'];
         tradeData.total = data['price'] * tradeData.shares;
-        tradeData.cash = tradeData.cash - tradeData.total;
+        console.log('tradeData after: ', tradeData);
         if (tradeData.action === 'buy' && tradeData.total > tradeData.cash){
           return res.status(403).send({message: 'Not enough money!'});
         }
+        tradeData.cash = tradeData.cash - tradeData.total;
         Stocks.insert(tradeData, (message) => {
           if (message) {
             return res.status(400).send(message);
@@ -105,6 +109,7 @@ app.post('/mystocks', (req, res) => {
 app.post('/history', (req, res) => {
   const id = req.body;
   History.findAll(id, (results) => {
+    console.log('history: ', results);
     res.status(200).json(results);
   })
 })
