@@ -9,10 +9,11 @@ module.exports = {
     })
   },
 
-  findAll: (user, cb) => {
-    let query = `SELECT * from history where user_id=?`
-    return db.query(query, [user.id], function(err, results) {
+  findAll: (id, cb) => {
+    let query = `SELECT * FROM history where user_id=?`
+    return db.query(query, [id.id], function(err, results) {
       if (err) throw err;
+      console.log('inside controller history: ', results);
       cb(results);
     })
   }

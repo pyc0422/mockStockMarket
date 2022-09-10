@@ -94,6 +94,20 @@ app.post('/trade', (req, res) => {
     })
 })
 
+app.post('/mystocks', (req, res) => {
+  const { id } = req.body;
+  console.log({id});
+  Stocks.findByUser(id, (results) => {
+    res.status(200).json(results);
+  })
+})
+
+app.post('/history', (req, res) => {
+  const id = req.body;
+  History.findAll(id, (results) => {
+    res.status(200).json(results);
+  })
+})
 const port = 3000;
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

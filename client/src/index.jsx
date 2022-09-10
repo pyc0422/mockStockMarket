@@ -14,7 +14,9 @@ class App extends React.Component {
     this.state = {
       clickBtn: '',
       user: {},
-      login: false
+      login: false,
+      user_stocks: [],
+      user_history: []
     };
     this.btnClick = this.btnClick.bind(this);
     this.beforeLoginRenderPage = null;
@@ -109,16 +111,70 @@ class App extends React.Component {
 
   }
 
+  findUserStock(cb) {
+    return fetch('/mystocks', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: this.state.user.id})
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log('stocks json: ', json);
+        this.setState({
+          user_stocks: json
+        })
+      })
+      .then(() => {
+        cb();
+      })
+
+  }
+
+  findHistory(cb) {
+    return fetch('http://localhost:3000/history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: this.state.user.id})
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log('history json: ', json);
+        this.setState({
+          user_history: json
+        })
+      })
+      .then(() => {
+        cb();
+      })
+  }
+
   btnClick(e) {
-    console.log(e.target.value + ' just Clicked!');
-    if (e.target.value === 'logout') {
+    let btn = e.target.value;
+    console.log(btn + ' just Clicked!');
+    if (btn === 'logout') {
       this.setState({
         clickBtn: '',
         login: false
       })
+    } else if (btn === 'dashboard') {
+      this.findUserStock(() => {
+        this.setState({
+          clickBtn: btn
+        })
+      })
+    } else if (btn === 'history') {
+      this.findHistory(() => {
+        this.setState({
+          clickBtn: btn
+        })
+      })
     } else {
       this.setState({
-        clickBtn: e.target.value
+        clickBtn: btn
       })
     }
   }
@@ -145,16 +201,16 @@ class App extends React.Component {
     } else {
       switch (this.state.clickBtn) {
         case 'dashboard':
-          this.afterLoginRenderpage = <Dashboard />
+          this.afterLoginRenderpage = <Dashboard user={this.state.user} stocks={this.state.user_stocks}/>
           break;
         case 'trade':
           this.afterLoginRenderpage = <Trade trade={this.trade.bind(this)} user={this.state.user}/>
           break;
         case 'history':
-          this.afterLoginRenderpage =<History />
+          this.afterLoginRenderpage =<History history={this.state.user_history}/>
           break;
         default:
-          this.afterLoginRenderpage = <Dashboard />
+          this.afterLoginRenderpage = <Dashboard user={this.state.user} stocks={this.state.user_stocks}/>
       }
     }
 

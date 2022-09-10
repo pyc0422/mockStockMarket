@@ -45,9 +45,9 @@ module.exports = {
 
 
 
-  findByUser: (user, cb) => {
+  findByUser: (id, cb) => {
     let query = `SELECT * FROM stocks WHERE user_id=?`
-    return db.querty(query, [user.id], function(err, results) {
+    return db.query(query, [id], function(err, results) {
       if (err) throw err;
       cb(results)
     });
