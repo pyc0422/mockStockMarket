@@ -28,16 +28,17 @@ Once the project moves into development, the press release can be used as a touc
   You can buy and sell all the stocks on the market by using real world prices. So you can learn how to invest in stock.
 ## Problem ##
   > Describe the problem your product solves.
-  Help the new investor to find a way practise.
+  The new investor did not know the rule of the market.
+
 ## Solution ##
   > Describe how your product elegantly solves the problem.
-  By get real-world stock price data, the users can buy and sell the stocks like real world.
+  By get real-world stocks' price data, the users can buy and sell the stocks like real world. So they can learn the rule of the stock market.
 ## Quote from You ##
   > A quote from a spokesperson in your company.
-  If you want to invest in stock, try our website first! It will help you to learn the stock market rule.
+  If you want to invest in stock market, try our app first! It will help you to learn the stock market rule and practise before you go to the real market! Don't waste your money in stocks!
 ## How to Get Started ##
   > Describe how easy it is to get started.
-  Just registe and login in. Type the symbol of the stock and you can play with just like real world.
+  Just sign up and login in. Type the symbol of the stock and you can play with all the stocks you interested just like in real world.
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 

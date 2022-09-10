@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import sha1 from 'crypto-js/sha1';
+
 const initState = {
   username:'',
   password1:'',
@@ -11,10 +11,8 @@ const initState = {
 class Signup extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = initState;
     this.handleChange = this.handleChange.bind(this);
-
   }
 
   handleChange (e) {
@@ -44,12 +42,11 @@ class Signup extends React.Component {
     } else if (this.state.password1 !== this.state.password2) {
       alert('Password did not match');
     } else {
-      let hashed = JSON.stringify(sha1(this.state.password).words);
       const newUser = {
         username: this.state.username,
         password: this.state.password1,
         cash: 1000
-      }
+      };
       console.log(newUser, ' start signup!');
       return fetch('http://localhost:3000/signup', {
         method: 'POST',

@@ -5,6 +5,7 @@ console.log('db', typeof db);
 const bp = require('body-parser');
 const findStock = require('../helper/helper');
 const {Users, Stocks, History} = require('../db/controller');
+const bcrypt = require('bcrypt');
 let app = express();
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
@@ -37,9 +38,13 @@ app.post('/signup', (req, res) => {
        return res.status(422).send('user already exists!');
       //res.redirct('/login')
     } else if (!data.length){
-      Users.insert(newUser, () => {
-        console.log('user added!');
-        res.status(201).send('user added!');
+      bcrypt.hash(newUser.password, 6, (err, hashed)=> {
+        if (err) throw err;
+        newUser.password = hashed;
+        Users.insert(newUser, () => {
+          console.log('user added!');
+          res.status(201).send('user added!');
+        })
       })
     }
 
@@ -54,11 +59,17 @@ app.post('/login', (req, res) => {
     if (data.length === 0) {
       return res.status(404).send("not found!");
     }
-    if (JSON.stringify(data[0].password) === JSON.stringify(userData.password)) {
+    bcrypt.compare(userData.password, data[0].password, (err, result) => {
+      if (!result) {
+        return res.status(401).send('wrong password');
+      }
       res.status(200).json(data[0]);
-    } else {
-      return res.status(401).send('wrong password');
-    }
+    })
+    // if (JSON.stringify(data[0].password) === JSON.stringify(userData.password)) {
+    //   res.status(200).json(data[0]);
+    // } else {
+    //   return res.status(401).send('wrong password');
+    // }
   })
 })
 
