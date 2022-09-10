@@ -78,19 +78,16 @@ app.post('/trade', (req, res) => {
         }
         Stocks.insert(tradeData, (message) => {
           if (message) {
-            console.log('message: ', message);
             return res.status(400).send(message);
-          } else {
-            console.log('add stocks!');
-            Users.update(tradeData, () => {
-              console.log('cash changed!')
-              History.insert(tradeData, (results) => {
-                console.log('add history!');
-                res.status(201).json(tradeData);
-              })
-            })
           }
-
+          console.log('add stocks!');
+          Users.update(tradeData, () => {
+            console.log('cash changed!')
+            History.insert(tradeData, (results) => {
+              console.log('add history!');
+              res.status(201).json(tradeData);
+            })
+          })
         })
 
       }

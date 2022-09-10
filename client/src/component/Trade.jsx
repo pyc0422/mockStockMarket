@@ -1,13 +1,13 @@
 import React from 'react';
-
+const initState = {
+  action: 'buy',
+  symbol:'',
+  shares: 0
+};
 class Trade extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      action: 'buy',
-      symbol:'',
-      shares: 0
-    }
+    this.state = initState;
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -41,11 +41,13 @@ class Trade extends React.Component {
       content.shares = -content.shares;
     }
     event.preventDefault();
-    console.log(content, ' is ready to post to server!')
+    //console.log(content, ' is ready to post to server!')
     //submit to server
     this.props.trade(content)
       .then(() => {
-        console.log('traded!');
+        console.log('trade finished');
+        alert('Trade successfully!');
+        this.setState(initState);
       })
 
   }
