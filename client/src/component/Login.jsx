@@ -33,12 +33,10 @@ class Login extends React.Component {
     } else if (this.state.password.length === 0) {
       alert('Please enter password!');
     } else {
-      let hashed = JSON.stringify(sha1(this.state.password).words);
       const tempUser = {
         username: this.state.username,
         password: this.state.password
       };
-      console.log(tempUser, 'just login ready to sent to server');
       this.props.login(tempUser)
        .then(() => {
         this.setState(initState);

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS history(
   symbol TEXT,
   name TEXT,
   price FLOAT,
-  share INT,
+  shares INT,
   total FLOAT,
   createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
