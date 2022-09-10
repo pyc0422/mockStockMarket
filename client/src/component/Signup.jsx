@@ -48,7 +48,7 @@ class Signup extends React.Component {
       const newUser = {
         username: this.state.username,
         password: this.state.password1,
-        cash: 100
+        cash: 1000
       }
       console.log(newUser, ' start signup!');
       return fetch('http://localhost:3000/signup', {

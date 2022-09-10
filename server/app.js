@@ -66,20 +66,33 @@ app.post('/trade', (req, res) => {
     .then((response) => {
       console.log('response trade: ', response);
       if (response.length === 0) {
-        return res.status(404).send('have not own any share of this stock')
+        res.status(404).send('have not own any share of this stock')
       } else {
         let data = response[0];
         tradeData.price = data['price'];
         tradeData.name = data['name'];
         tradeData.total = data['price'] * tradeData.shares;
         tradeData.cash = tradeData.cash - tradeData.total;
-        Stocks.insert(tradeData, () => {
-          console.log('add stocks!');
-          History.insert(tradeData, (results) => {
-            console.log('add history!');
-            return res.status(201).json(results);
-          });
+        if (tradeData.action === 'buy' && tradeData.total > tradeData.cash){
+          return res.status(403).send({message: 'Not enough money!'});
+        }
+        Stocks.insert(tradeData, (message) => {
+          if (message) {
+            console.log('message: ', message);
+            return res.status(400).send(message);
+          } else {
+            console.log('add stocks!');
+            Users.update(tradeData, () => {
+              console.log('cash changed!')
+              History.insert(tradeData, (results) => {
+                console.log('add history!');
+                res.status(201).json(tradeData);
+              })
+            })
+          }
+
         })
+
       }
     })
 })

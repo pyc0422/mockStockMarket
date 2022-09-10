@@ -20,29 +20,25 @@ module.exports = {
         let params = [stockData.symbol, stockData.name, stockData.shares, stockData.price, stockData.total, stockData.user_id];
         db.query(query, params, function(err) {
           if (err) throw err;
-          cb();
+          cb(null);
         });
       } else {
-        results = results[0]
-        if (stockData.action === 'buy') {
-          let newShares = results.shares + stockData.shares;
-          let newTotal = results.total + stockData.total;
-        } else {
-          let newShares = results.shares - stockData.shares;
-          if (newShares < 0) {
-            cb('not enough shares to sell');
-            return;
-          }
-          let newTotal = results.total - stockData.total;
+        results = results[0];
+        var newShares = results.shares + stockData.shares;
+        if (newShares < 0) {
+          cb({message:'not enough shares'});
+          return;
         }
+        var newTotal = results.total + stockData.total;
         let newPrice = newTotal / newShares;
         let query = `UPDATE stocks SET price=?, shares=?, total=? WHERE symbol=?`;
         let params = [newPrice, newShares, newTotal, stockData.symbol];
         db.query(query, params, function(err) {
           if (err) throw err;
-          cb();
+          cb(null);
         });
-    })
+      }
+    });
 
   },
 

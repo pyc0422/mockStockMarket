@@ -18,4 +18,13 @@ module.exports = {
     })
   },
 
+  update: (data, cb) => {
+    let query = `UPDATE users SET cash=? WHERE id=?`;
+    let params = [data.cash, data.user_id];
+    db.query(query, params, function(err) {
+      if(err) throw err;
+      cb();
+    })
+  }
+
 }

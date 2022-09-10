@@ -83,9 +83,30 @@ class App extends React.Component {
       },
       body: JSON.stringify(content)
     })
-      .then((res) => {
-        console.log('trade finished');
-      });
+      .then(res => {
+
+        if (res.status === 403) {
+          let message = 'Not enough money!';
+          throw message;
+        } else if (res.status === 400) {
+          let message = 'Not enough shares!';
+          throw message;
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => {
+        let updateUser = {
+          id: this.state.user.id,
+          name: this.state.user.name,
+          cash: json.cash
+        }
+        this.setState({
+          user: updateUser
+        });
+      })
+      .catch(message => alert(message))
+
   }
 
   btnClick(e) {

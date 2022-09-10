@@ -37,6 +37,9 @@ class Trade extends React.Component {
       user_id: this.props.user.id,
       cash: this.props.user.cash
     }
+    if (this.state.action === 'sell') {
+      content.shares = -content.shares;
+    }
     event.preventDefault();
     console.log(content, ' is ready to post to server!')
     //submit to server
