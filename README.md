@@ -1,2 +1,3 @@
-# mvp
-This is a project I completed as a student at [hackreactor](http://hackreactor.com). This project was worked on with a pair.
+# Mock Stock Market
+A full stack minimum viable product(MVP) created by myself.
+
