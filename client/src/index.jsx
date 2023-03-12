@@ -7,7 +7,7 @@ import History from "./component/History.jsx";
 import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
 import {searchStock, login, handleTrade, userStocks, allHistory} from '../../helper/utils.js';
-import './styles.css'
+//import './index.css'
 class App extends React.Component {
 
   constructor(props) {
@@ -105,9 +105,6 @@ class App extends React.Component {
     if (btn === 'logout') {
       this.setState({
         clickBtn: '',
-        user: {},
-        user_stocks: [],
-        user_history: [],
         login: false
       })
     } else if (btn === 'dashboard') {
@@ -141,7 +138,12 @@ class App extends React.Component {
           this.beforeLoginRenderPage = <Login login={this.handleLogin.bind(this)}/>
           break;
         default:
-          this.beforeLoginRenderPage = <Search onSearch={this.search.bind(this)} />
+          this.beforeLoginRenderPage = (
+          <div>
+            <h2>Welcome to Mock Stock Market!</h2>
+          <Search onSearch={this.search.bind(this)} />
+          </div>
+          )
       }
     } else {
       switch (this.state.clickBtn) {
@@ -163,8 +165,7 @@ class App extends React.Component {
     }
 
     return (
-      <div style={{textAlign:'center', color:'white'}}>
-        <h2> Welcome to Mock Stock Market!</h2>
+      <div>
         <div className='button' onClick={this.btnClick}>
           { this.state.login &&  (
             <a>

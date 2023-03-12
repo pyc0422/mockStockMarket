@@ -53,27 +53,28 @@ class Trade extends React.Component {
 
   render() {
     return (
-      <div style={{fontWeight:600, width:'50%', margin:'auto'}}>
+      <div>
         <h3>TRADE STOCKS</h3>
-
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <div className="form-row">
-            <label>SYMBOL:</label>
+          <label>
+            SYMBOL:
             <input type="text" id="symbol" value={this.state.symbol} onChange={this.handleChange}/>
-          </div>
-          <div className="form-row">
-            <label>ACTION:</label>
-            <select style={{width:'11em'}} value={this.state.action} onChange={this.handleChange} id='action'>
+          </label>
+          <br/>
+          <label>
+            ACTION:
+            <select value={this.state.action} onChange={this.handleChange} id='action'>
               <option value="buy">Buy</option>
               <option value="sell">Sell</option>
             </select>
-
-          </div>
-          <div className="form-row">
-            <label>Shares:</label>
+          </label>
+          <br/>
+          <label>
+            Shares:
             <input type="number" id="shares" value={this.state.shares} onChange={this.handleChange}></input>
-          </div>
-          <input style={{marginTop:'5%'}} className='btn' type="submit" value="Submit" />
+          </label>
+          <br/>
+          <input type="submit" value="Submit" />
         </form>
       </div>
 

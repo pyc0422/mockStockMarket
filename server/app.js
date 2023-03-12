@@ -11,7 +11,9 @@ app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 
-
+app.get('/', (req, res) => {
+  res.status(200).send('refreshed');
+})
 app.post('/search', (req, res) => {
   console.log('search post', req.body);
   const { symbol } = req.body;
@@ -63,6 +65,11 @@ app.post('/login', (req, res) => {
       }
       res.status(200).json(data[0]);
     })
+    // if (JSON.stringify(data[0].password) === JSON.stringify(userData.password)) {
+    //   res.status(200).json(data[0]);
+    // } else {
+    //   return res.status(401).send('wrong password');
+    // }
   })
 })
 

@@ -46,19 +46,21 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div style={{color:'black', fontWeight:600, width:'50%', margin:'auto'}}>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <div className="form-row">
-            <label>UserName:</label>
-            <input onChange={this.handleChange} value={this.state.username} type="text" id="username" />
-          </div>
-          <div className="form-row">
-            <label>Password:</label>
-            <input onChange={this.handleChange} value={this.state.password1}type="password" id='pw'/>
-          </div>
-          <input style={{marginTop:'5%'}} className='btn' type="submit" value="Login" />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <label>
+          UserName:
+          <input onChange={this.handleChange} value={this.state.username} type="text" id="username" />
+        </label>
+        <br/>
+        <label>
+          Password:
+          <input onChange={this.handleChange} value={this.state.password1}type="password" id='pw'/>
+        </label>
+        <br/>
+
+        <br/>
+        <input type="submit" value="Login" />
+      </form>
     )
   }
 }

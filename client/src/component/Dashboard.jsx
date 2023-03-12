@@ -25,10 +25,10 @@ import StockListEntry from './StockListEntry.jsx'
 //   render() {
 const Dashboard = (props) => {
   return (
-    <div style={{margin:'auto', width:'70%', textAlign:'center'}}>
+    <div>
       <h2> Avialable Balance: ${props.user.cash}</h2>
       {props.stocks.length ? (
-        <table style={{margin:'auto'}}>
+        <table>
         <thead>
           <tr>
             <th>Symbol</th>
