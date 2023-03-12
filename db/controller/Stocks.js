@@ -30,7 +30,7 @@ module.exports = {
           return;
         }
         var newTotal = results.total + stockData.total;
-        let newPrice = newTotal / newShares;
+        let newPrice = newTotal / newShares || 0;
         let query = `UPDATE stocks SET price=?, shares=?, total=? WHERE symbol=?`;
         let params = [newPrice, newShares, newTotal, stockData.symbol];
         db.query(query, params, function(err) {
@@ -41,9 +41,6 @@ module.exports = {
     });
 
   },
-
-
-
 
   findByUser: (id, cb) => {
     let query = `SELECT * FROM stocks WHERE user_id=?`

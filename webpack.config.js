@@ -7,6 +7,7 @@ module.exports = {
     path:path.join(__dirname, "./client/dist"),
 
   },
+  mode:"development",
   module: {
     rules: [
       {
@@ -16,9 +17,10 @@ module.exports = {
           loader: "babel-loader"
         },
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
-    loaders: [
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-    ]
   },
 };

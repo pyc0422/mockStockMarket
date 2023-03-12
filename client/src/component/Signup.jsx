@@ -68,24 +68,42 @@ class Signup extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div style={{color:'black', fontWeight:600, width:'50%', margin:'auto'}}>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <label>
-            UserName:
+          <div className="form-row">
+            <label>
+              UserName:
+            </label>
             <input onChange={this.handleChange} value={this.state.username} type="text" id="username" />
-          </label>
-          <br/>
-          <label>
+          </div>
+          <div className="form-row">
+            <label>
             Password:
-            <input onChange={this.handleChange} value={this.state.password1}type="password" id='pw1'/>
-          </label>
-          <br/>
-          <label>
-            Password again:
-            <input onChange={this.handleChange} value={this.state.password2} type="password" id='pw2'/>
-          </label>
-          <br/>
-          <input type="submit" value="Register" />
+            </label>
+            <input
+             onChange={this.handleChange}
+             value={this.state.password1}
+             type="password"
+             id='pw1'
+            />
+
+          </div>
+            <div className="form-row">
+            <label>
+              Password again:
+            </label>
+            <input
+             onChange={this.handleChange}
+             value={this.state.password2}
+             type="password"
+             id='pw2'
+            />
+          </div>
+          <div style={{marginTop:'5%'}}>
+            <input className='btn' type="submit" value="Register" />
+
+          </div>
+
         </form>
 
       </div>

@@ -7,7 +7,6 @@ let findStock = (symbol) => {
   // }
   return axios.get(`https://fmpcloud.io/api/v3/quote/${symbol}?apikey=${token}`)
     .then((res) => {
-      console.log(res.data);
       return res.data;
     })
     .catch((err) => {

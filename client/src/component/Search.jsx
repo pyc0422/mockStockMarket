@@ -29,11 +29,13 @@ class Search extends React.Component {
   render() {
     return (
 
-      <div>
-        <a className="text1">Enter symbol to search: </a><br/>
-        <p className="text1"><a className="text1" href="https://stockanalysis.com/stocks/">Click here</a> if you don't know the symbol</p>
-        <input onChange={this.onChange.bind(this)} value={this.state.input}></input>
-        <button onClick={this.onClick.bind(this)}>Search</button>
+      <div style={{margin:'auto'}}>
+        <h3 style={{textShadow: "0 0 3px #000000", color:'white'}}>
+          Enter symbol to search
+        </h3>
+        <p style={{color:'black'}}><a className="text1" href="https://stockanalysis.com/stocks/">Click here</a> if you don't know the symbol</p>
+        <input style={{height:'2.5em', width:'20em'}} onChange={this.onChange.bind(this)} value={this.state.input}></input>
+        <button className='btn' onClick={this.onClick.bind(this)}>Search</button>
         { this.state.param.length === 0 ? null : <StockShow stock={this.state.param}/> }
       </div>
     )

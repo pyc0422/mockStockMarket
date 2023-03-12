@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 const database = 'stocks';
 
 module.exports = mysql.createConnection({
-  host: 'localhost',
+  host: '127.0.0.1',
   user: 'root',
   password: '',
   database: 'stocksDB'

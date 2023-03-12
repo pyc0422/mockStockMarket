@@ -2,7 +2,7 @@ import React from 'react';
 
 const StockShow = (props) => {
   return (
-    <table>
+    <table style={{color:'black', margin:'auto', fontSize:'1.2em', marginTop:'1%'}}>
       <thead>
         <tr>
           <th>Symbol</th>
